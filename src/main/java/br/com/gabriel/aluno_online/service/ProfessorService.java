@@ -1,6 +1,5 @@
 package br.com.gabriel.aluno_online.service;
 
-import br.com.gabriel.aluno_online.model.Aluno;
 import br.com.gabriel.aluno_online.model.Professor;
 import br.com.gabriel.aluno_online.repository.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,41 +16,53 @@ public class ProfessorService {
     @Autowired
     ProfessorRepository professorRepository;
 
-    public void criarProfessor(Professor professor){
+    // CREATE — salva um novo professor no banco
+    public void criarProfessor(Professor professor) {
+        // INSERT INTO professor ...
         professorRepository.save(professor);
     }
 
+    // READ — busca um professor pelo ID, retorna Optional (pode ser vazio)
     public Optional<Professor> buscarProfessorPorId(Long id) {
+        // SELECT * FROM professor WHERE id = ?
         return professorRepository.findById(id);
     }
 
-    public List<Professor> listarTodosOsProfessores(){
+    // READ — retorna todos os professores cadastrados
+    public List<Professor> listarTodosOsProfessores() {
+        // SELECT * FROM professor
         return professorRepository.findAll();
     }
 
+    // UPDATE — atualiza os dados de um professor existente pelo ID
     public void atualizarProfessorPorId(Long id, Professor professor) {
+        // 1. Verifica se o professor existe antes de tentar editar
         Optional<Professor> professorDoBanco = buscarProfessorPorId(id);
-
         if (professorDoBanco.isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Professor não encontrado para a alteração");
         }
+
+        // 2. Pega o objeto gerenciado pelo JPA e atualiza os campos
         Professor professorParaEditar = professorDoBanco.get();
         professorParaEditar.setNome(professor.getNome());
         professorParaEditar.setCpf(professor.getCpf());
         professorParaEditar.setEmail(professor.getEmail());
 
+        // 3. Salva as alterações — UPDATE INTO professor ...
         professorRepository.save(professorParaEditar);
     }
 
-    public void deletarProfessor(Long id){
+    // DELETE — remove um professor pelo ID
+    public void deletarProfessor(Long id) {
+        // 1. Verifica se o professor existe antes de tentar deletar
         Optional<Professor> professorDoBanco = buscarProfessorPorId(id);
-
         if (professorDoBanco.isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Professor não encontrado para exclusão");
         }
-        // 2. Deletamos usando o ID
+
+        // 2. Deleta usando o ID — DELETE FROM professor WHERE id = ?
         professorRepository.deleteById(id);
     }
 }
