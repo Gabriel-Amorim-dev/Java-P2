@@ -9,13 +9,19 @@ import java.util.List;
 
 @Service
 public class DisciplinaService {
+
     @Autowired
     DisciplinaRepository disciplinaRepository;
 
-    public void criarDisciplina(Disciplina disciplina){
+    // CREATE — salva uma nova disciplina no banco
+    public void criarDisciplina(Disciplina disciplina) {
+        // INSERT INTO disciplina ...
         disciplinaRepository.save(disciplina);
     }
-    public List<Disciplina> listDisciplinaDoProf(Long professorId){
+
+    // READ — busca todas as disciplinas vinculadas a um professor específico
+    public List<Disciplina> listDisciplinaDoProf(Long professorId) {
+        // SELECT * FROM disciplina WHERE professor_id = ?
         return disciplinaRepository.findByProfessorId(professorId);
     }
 }
