@@ -10,10 +10,10 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Optional;
 
-@Service  // "Esta classe é um Service do Spring!"
+@Service  
 public class AlunoService {
 
-    @Autowired // Injeção de dependência automática!
+    @Autowired 
     AlunoRepository alunoRepository;
 
     // CREATE — salvar novo aluno
@@ -55,7 +55,7 @@ public class AlunoService {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Aluno não encontrado para exclusão");
         }
-        // 2. Deletamos usando o ID
-        alunoRepository.deleteById(id);
+       
+        alunoRepository.deleteById(id); // DELETE aluno WHERE id = ? 
     }
 }
