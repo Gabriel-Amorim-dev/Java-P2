@@ -32,8 +32,8 @@ public class AlunoController {
     public Optional<Aluno> buscarAlunoPorId(@PathVariable Long id){
         return alunoService.buscarAlunoPorId(id);
     }
-    @PutMapping("/{id}")              // PUT /alunos/1
-    @ResponseStatus(HttpStatus.NO_CONTENT)  // 204
+    @PutMapping("/{id}")              
+    @ResponseStatus(HttpStatus.NO_CONTENT) 
     public void atualizarAlunoPorId(@PathVariable Long id,
                                     @RequestBody Aluno aluno) {
         alunoService.atualizarAlunoPorId(id, aluno);
