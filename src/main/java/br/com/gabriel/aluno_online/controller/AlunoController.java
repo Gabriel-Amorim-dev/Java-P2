@@ -1,0 +1,47 @@
+package br.com.gabriel.aluno_online.controller;
+
+import br.com.gabriel.aluno_online.model.Aluno;
+import br.com.gabriel.aluno_online.service.AlunoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/alunos")
+public class AlunoController {
+    @Autowired
+    AlunoService alunoService;
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void criarAluno(@RequestBody Aluno aluno) {
+        alunoService.criarAluno(aluno);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Aluno> listarTodosAlunos() {
+        return alunoService.listarTodosAlunos();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Aluno> buscarAlunoPorId(@PathVariable Long id){
+        return alunoService.buscarAlunoPorId(id);
+    }
+    @PutMapping("/{id}")              // PUT /alunos/1
+    @ResponseStatus(HttpStatus.NO_CONTENT)  // 204
+    public void atualizarAlunoPorId(@PathVariable Long id,
+                                    @RequestBody Aluno aluno) {
+        alunoService.atualizarAlunoPorId(id, aluno);
+    }
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletarAluno(@PathVariable Long id){
+        alunoService.deletarAluno(id);
+    }
+}
+
